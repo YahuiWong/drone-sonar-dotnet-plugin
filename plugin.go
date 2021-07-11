@@ -39,7 +39,7 @@ func (p Plugin) Exec() error {
 
 	if !p.Config.UsingProperties {
 		argsParameter := []string{
-			"/k:" + strings.Replace(p.Config.Key, "/", "-", -1) + "",
+			"/key:" + strings.Replace(p.Config.Key, "/", "-", -1) + "",
 			"/n:" + p.Config.Name,
 			"/version:" + p.Config.Version,
 			"/d:sonar.sources=" + p.Config.Sources,
@@ -83,7 +83,7 @@ func (p Plugin) Exec() error {
 	if builderr != nil {
 		return builderr
 	}
-	endargs := append([]string{"sonarscanner", "end"}, args...)
+	endargs := append([]string{"sonarscanner", "end", "/d:sonar.login=" + p.Config.Token})
 	endcmd := exec.Command("dotnet", endargs...)
 	endcmd.Stdout = os.Stdout
 	endcmd.Stderr = os.Stderr
