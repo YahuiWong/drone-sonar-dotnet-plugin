@@ -24,6 +24,7 @@ type (
 		ShowProfiling   string
 		BranchAnalysis  bool
 		UsingProperties bool
+		buildfile       string
 	}
 	Plugin struct {
 		Config Config
@@ -32,31 +33,36 @@ type (
 
 func (p Plugin) Exec() error {
 	args := []string{
-		"/d:sonar.host.url=" + p.Config.Host,
-		"/d:sonar.login" + p.Config.Token,
+		"/d:sonar.host.url=" + p.Config.Host + "",
+		"/d:sonar.login=" + p.Config.Token + "",
 	}
 
 	if !p.Config.UsingProperties {
 		argsParameter := []string{
-			"/k:" + strings.Replace(p.Config.Key, "/", ":", -1),
-			"/d:sonar.projectName=" + p.Config.Name,
-			"/d:sonar.projectVersion=" + p.Config.Version,
+			"/k:" + strings.Replace(p.Config.Key, "/", "-", -1) + "",
+			"/n:" + p.Config.Name,
+			"/version:" + p.Config.Version,
 			"/d:sonar.sources=" + p.Config.Sources,
 			"/d:sonar.ws.timeout=" + p.Config.Timeout,
-			"/d:sonar.inclusions=" + p.Config.Inclusions,
-			"/d:sonar.exclusions=" + p.Config.Exclusions,
+			// "/d:sonar.inclusions=" + p.Config.Inclusions,
+			// "/d:sonar.exclusions=" + p.Config.Exclusions,
 			"/d:sonar.log.level=" + p.Config.Level,
 			"/d:sonar.showProfiling=" + p.Config.ShowProfiling,
 			"/d:sonar.scm.provider=git",
 		}
 		args = append(args, argsParameter...)
 	}
-
-	if p.Config.BranchAnalysis {
-		args = append(args, "/d:sonar.branch.name="+p.Config.Branch)
+	if p.Config.Inclusions != "" {
+		args = append(args, "/d:sonar.inclusions="+p.Config.Inclusions+"")
 	}
-
-	begincmd := exec.Command("dotnet sonarscanner begin", args...)
+	if p.Config.Exclusions != "" {
+		args = append(args, "/d:sonar.exclusions="+p.Config.Exclusions+"")
+	}
+	if p.Config.BranchAnalysis {
+		args = append(args, "/d:sonar.branch.name="+p.Config.Branch+"")
+	}
+	beginargs := append([]string{"sonarscanner", "begin"}, args...)
+	begincmd := exec.Command("dotnet", beginargs...)
 	// fmt.Printf("==> Executing: %s\n", strings.Join(cmd.Args, " "))
 	begincmd.Stdout = os.Stdout
 	begincmd.Stderr = os.Stderr
@@ -65,7 +71,11 @@ func (p Plugin) Exec() error {
 	if begincmderr != nil {
 		return begincmderr
 	}
-	buildcmd := exec.Command("dotnet build ")
+	buildargs := []string{"build"}
+	if p.Config.buildfile != "" {
+		buildargs = append(buildargs, p.Config.buildfile)
+	}
+	buildcmd := exec.Command("dotnet", buildargs...)
 	buildcmd.Stdout = os.Stdout
 	buildcmd.Stderr = os.Stderr
 	fmt.Printf("==> Code Analysis Build:\n")
@@ -73,7 +83,8 @@ func (p Plugin) Exec() error {
 	if builderr != nil {
 		return builderr
 	}
-	endcmd := exec.Command("dotnet sonarscanner end", args...)
+	endargs := append([]string{"sonarscanner", "end"}, args...)
+	endcmd := exec.Command("dotnet", endargs...)
 	endcmd.Stdout = os.Stdout
 	endcmd.Stderr = os.Stderr
 	fmt.Printf("==> Code Analysis Build:\n")

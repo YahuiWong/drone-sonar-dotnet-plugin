@@ -6,9 +6,6 @@ COPY vendor ./vendor/
 RUN GOOS=linux GOARCH=amd64 CGO_ENABLED=0 go build -o drone-sonar
 
 FROM mcr.microsoft.com/dotnet/sdk:3.1
-
-
-
 RUN apt-get update \
     && apt-get install default-jdk -y \
     && apt-get clean

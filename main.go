@@ -2,8 +2,9 @@ package main
 
 import (
 	"fmt"
-	"github.com/codegangsta/cli"
 	"os"
+
+	"github.com/codegangsta/cli"
 )
 
 var build = "1" // build number set at compile time
@@ -92,6 +93,11 @@ func main() {
 			Usage:  "using sonar-project.properties",
 			EnvVar: "PLUGIN_USINGPROPERTIES",
 		},
+		cli.StringFlag{
+			Name:   "buildfile",
+			Usage:  "sln,csproj filepath",
+			EnvVar: "PLUGIN_BUILD_FILE",
+		},
 	}
 
 	app.Run(os.Args)
@@ -105,17 +111,17 @@ func run(c *cli.Context) {
 			Host:  c.String("host"),
 			Token: c.String("token"),
 
-			Version:        c.String("ver"),
-			Branch:         c.String("branch"),
-			Timeout:        c.String("timeout"),
-			Sources:        c.String("sources"),
-			Inclusions:     c.String("inclusions"),
-			Exclusions:     c.String("exclusions"),
-			Level:          c.String("level"),
-			ShowProfiling:  c.String("showProfiling"),
-			BranchAnalysis: c.Bool("branchAnalysis"),
+			Version:         c.String("ver"),
+			Branch:          c.String("branch"),
+			Timeout:         c.String("timeout"),
+			Sources:         c.String("sources"),
+			Inclusions:      c.String("inclusions"),
+			Exclusions:      c.String("exclusions"),
+			Level:           c.String("level"),
+			ShowProfiling:   c.String("showProfiling"),
+			BranchAnalysis:  c.Bool("branchAnalysis"),
 			UsingProperties: c.Bool("usingProperties"),
-
+			buildfile:       c.String("buildfile"),
 		},
 	}
 
