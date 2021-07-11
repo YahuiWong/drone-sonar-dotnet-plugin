@@ -14,15 +14,15 @@ type (
 		Host  string
 		Token string
 
-		Version        string
-		Branch         string
-		Sources        string
-		Timeout        string
-		Inclusions     string
-		Exclusions     string
-		Level          string
-		ShowProfiling  string
-		BranchAnalysis bool
+		Version         string
+		Branch          string
+		Sources         string
+		Timeout         string
+		Inclusions      string
+		Exclusions      string
+		Level           string
+		ShowProfiling   string
+		BranchAnalysis  bool
 		UsingProperties bool
 	}
 	Plugin struct {
@@ -32,40 +32,54 @@ type (
 
 func (p Plugin) Exec() error {
 	args := []string{
-		"-Dsonar.host.url=" + p.Config.Host,
-		"-Dsonar.login=" + p.Config.Token,
+		"/d:sonar.host.url=" + p.Config.Host,
+		"/d:sonar.login" + p.Config.Token,
 	}
 
 	if !p.Config.UsingProperties {
 		argsParameter := []string{
-			"-Dsonar.projectKey=" + strings.Replace(p.Config.Key, "/", ":", -1),
-			"-Dsonar.projectName=" + p.Config.Name,
-			"-Dsonar.projectVersion=" + p.Config.Version,
-			"-Dsonar.sources=" + p.Config.Sources,
-			"-Dsonar.ws.timeout=" + p.Config.Timeout,
-			"-Dsonar.inclusions=" + p.Config.Inclusions,
-			"-Dsonar.exclusions=" + p.Config.Exclusions,
-			"-Dsonar.log.level=" + p.Config.Level,
-			"-Dsonar.showProfiling=" + p.Config.ShowProfiling,
-			"-Dsonar.scm.provider=git",
+			"/k:" + strings.Replace(p.Config.Key, "/", ":", -1),
+			"/d:sonar.projectName=" + p.Config.Name,
+			"/d:sonar.projectVersion=" + p.Config.Version,
+			"/d:sonar.sources=" + p.Config.Sources,
+			"/d:sonar.ws.timeout=" + p.Config.Timeout,
+			"/d:sonar.inclusions=" + p.Config.Inclusions,
+			"/d:sonar.exclusions=" + p.Config.Exclusions,
+			"/d:sonar.log.level=" + p.Config.Level,
+			"/d:sonar.showProfiling=" + p.Config.ShowProfiling,
+			"/d:sonar.scm.provider=git",
 		}
 		args = append(args, argsParameter...)
 	}
 
-
 	if p.Config.BranchAnalysis {
-		args = append(args, "-Dsonar.branch.name=" + p.Config.Branch)
+		args = append(args, "/d:sonar.branch.name="+p.Config.Branch)
 	}
 
-	cmd := exec.Command("sonar-scanner", args...)
+	begincmd := exec.Command("dotnet sonarscanner begin", args...)
 	// fmt.Printf("==> Executing: %s\n", strings.Join(cmd.Args, " "))
-	cmd.Stdout = os.Stdout
-	cmd.Stderr = os.Stderr
-	fmt.Printf("==> Code Analysis Result:\n")
-	err := cmd.Run()
-	if err != nil {
-		return err
+	begincmd.Stdout = os.Stdout
+	begincmd.Stderr = os.Stderr
+	fmt.Printf("==> Code Analysis Begin:\n")
+	begincmderr := begincmd.Run()
+	if begincmderr != nil {
+		return begincmderr
 	}
-
+	buildcmd := exec.Command("dotnet build ")
+	buildcmd.Stdout = os.Stdout
+	buildcmd.Stderr = os.Stderr
+	fmt.Printf("==> Code Analysis Build:\n")
+	builderr := buildcmd.Run()
+	if builderr != nil {
+		return builderr
+	}
+	endcmd := exec.Command("dotnet sonarscanner end", args...)
+	endcmd.Stdout = os.Stdout
+	endcmd.Stderr = os.Stderr
+	fmt.Printf("==> Code Analysis Build:\n")
+	enderr := endcmd.Run()
+	if enderr != nil {
+		return enderr
+	}
 	return nil
 }

@@ -5,23 +5,19 @@ COPY *.go ./
 COPY vendor ./vendor/
 RUN GOOS=linux GOARCH=amd64 CGO_ENABLED=0 go build -o drone-sonar
 
-FROM openjdk:11.0.8-jre
+FROM mcr.microsoft.com/dotnet/sdk:3.1
 
-ARG SONAR_VERSION=4.5.0.2216
-ARG SONAR_SCANNER_CLI=sonar-scanner-cli-${SONAR_VERSION}
-ARG SONAR_SCANNER=sonar-scanner-${SONAR_VERSION}
+
 
 RUN apt-get update \
-    && apt-get install -y nodejs curl \
+    && apt-get install default-jdk -y \
     && apt-get clean
 
 COPY --from=build /go/src/github.com/aosapps/drone-sonar-plugin/drone-sonar /bin/
 WORKDIR /bin
 
-RUN curl https://binaries.sonarsource.com/Distribution/sonar-scanner-cli/${SONAR_SCANNER_CLI}.zip -so /bin/${SONAR_SCANNER_CLI}.zip
-RUN unzip ${SONAR_SCANNER_CLI}.zip \
-    && rm ${SONAR_SCANNER_CLI}.zip 
+RUN dotnet tool install --global dotnet-sonarscanner
 
-ENV PATH $PATH:/bin/${SONAR_SCANNER}/bin
+ENV PATH $PATH:/root/.dotnet/tools
 
 ENTRYPOINT /bin/drone-sonar
