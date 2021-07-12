@@ -53,13 +53,13 @@ func (p Plugin) Exec() error {
 		args = append(args, argsParameter...)
 	}
 	if p.Config.Inclusions != "" {
-		args = append(args, "/d:sonar.inclusions="+p.Config.Inclusions+"")
+		args = append(args, "/d:sonar.inclusions="+p.Config.Inclusions)
 	}
 	if p.Config.Exclusions != "" {
-		args = append(args, "/d:sonar.exclusions="+p.Config.Exclusions+"")
+		args = append(args, "/d:sonar.exclusions="+p.Config.Exclusions)
 	}
 	if p.Config.BranchAnalysis {
-		args = append(args, "/d:sonar.branch.name="+p.Config.Branch+"")
+		args = append(args, "/d:sonar.branch.name="+p.Config.Branch)
 	}
 	beginargs := append([]string{"sonarscanner", "begin"}, args...)
 	begincmd := exec.Command("dotnet", beginargs...)
