@@ -4,8 +4,8 @@ title: SonarQube
 author: aosapps
 tags: [ Sonar, SonarQube, Analysis, report ]
 logo: sonarqube.svg
-repo: aosapps/drone-sonar-plugin
-image: aosapps/drone-sonar-plugin
+repo: yahuiwong/drone-sonar-dotnet-plugin
+image: yahuiwong/drone-sonar-dotnet-plugin
 ---
 
 This plugin can scan your code quality and post the analysis report to your SonarQube server. SonarQube (previously called Sonar), is an open source code quality management platform.
@@ -15,7 +15,7 @@ The below pipeline configuration demonstrates simple usage:
 ```yaml
 steps:
 - name: code-analysis
-  image: aosapps/drone-sonar-plugin
+  image: yahuiwong/drone-sonar-dotnet-plugin
   settings:
     sonar_host:
       from_secret: sonar_host
@@ -28,7 +28,7 @@ Customized parameters could be specified:
 ```diff
   steps:
   - name: code-analysis
-    image: aosapps/drone-sonar-plugin
+    image: yahuiwong/drone-sonar-dotnet-plugin
     settings:
       sonar_host:
         from_secret: sonar_host
@@ -74,7 +74,7 @@ Safety first, the host and token are stored in Drone Secrets.
 * projectName: `DRONE_REPO`
 * You could also add a file named `sonar-project.properties` at the root of your project to specify parameters.
 
-Code repository: [aosapps/drone-sonar-plugin](https://github.com/aosapps/drone-sonar-plugin).  
+Code repository: [yahuiwong/drone-sonar-dotnet-plugin](https://github.com/yahuiwong/drone-sonar-dotnet-plugin).  
 SonarQube Parameters: [Analysis Parameters](https://docs.sonarqube.org/display/SONAR/Analysis+Parameters)
 
 # Test your SonarQube Server:
