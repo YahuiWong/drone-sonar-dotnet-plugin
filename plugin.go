@@ -87,7 +87,7 @@ func (p Plugin) Exec() error {
 	endcmd := exec.Command("dotnet", endargs...)
 	endcmd.Stdout = os.Stdout
 	endcmd.Stderr = os.Stderr
-	fmt.Printf("==> Code Analysis Build:\n")
+	fmt.Printf("==> Code Analysis end:\n")
 	enderr := endcmd.Run()
 	if enderr != nil {
 		return enderr
