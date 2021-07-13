@@ -11,7 +11,7 @@ FROM mcr.microsoft.com/dotnet/sdk:5.0.301-alpine3.13-amd64
 #     && apt update \
 #     && apt install default-jdk -y \
 #     && apt clean
-# RUN sed -i 's/dl-cdn.alpinelinux.org/mirrors.aliyun.com/g' /etc/apk/repositories
+# RUN sed -i 's/dl-cdn.alpinelinux.org/mirrors.ustc.edu.cn/g' /etc/apk/repositories
 RUN apk update \
 && apk add openjdk8
 

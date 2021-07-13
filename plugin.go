@@ -44,20 +44,18 @@ func (p Plugin) Exec() error {
 			"/version:" + p.Config.Version,
 			"/d:sonar.sources=" + p.Config.Sources,
 			"/d:sonar.ws.timeout=" + p.Config.Timeout,
-			// "/d:sonar.inclusions=" + p.Config.Inclusions,
-			// "/d:sonar.exclusions=" + p.Config.Exclusions,
 			"/d:sonar.log.level=" + p.Config.Level,
 			"/d:sonar.showProfiling=" + p.Config.ShowProfiling,
 			"/d:sonar.scm.provider=git",
 		}
 		args = append(args, argsParameter...)
 	}
-	// if p.Config.Inclusions != "" {
-	// 	args = append(args, "/d:sonar.inclusions="+p.Config.Inclusions)
-	// }
-	// if p.Config.Exclusions != "" {
-	// 	args = append(args, "/d:sonar.exclusions="+p.Config.Exclusions)
-	// }
+	if p.Config.Inclusions != "" {
+		args = append(args, "/d:sonar.inclusions="+p.Config.Inclusions)
+	}
+	if p.Config.Exclusions != "" {
+		args = append(args, "/d:sonar.exclusions="+p.Config.Exclusions)
+	}
 	if p.Config.BranchAnalysis {
 		args = append(args, "/d:sonar.branch.name="+p.Config.Branch)
 	}
