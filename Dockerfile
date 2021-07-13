@@ -7,8 +7,7 @@ RUN GOOS=linux GOARCH=amd64 CGO_ENABLED=0 go build -o drone-sonar
 
 FROM mcr.microsoft.com/dotnet/sdk:5.0
 RUN apt-get update \
-    && apt-get install default-jdk -y \
-    && apt-get clean
+    && apt-get install default-jdk -y 
     
 COPY --from=build /go/src/github.com/yahuiwong/drone-sonar-dotnet-plugin/drone-sonar /bin/
 WORKDIR /bin
