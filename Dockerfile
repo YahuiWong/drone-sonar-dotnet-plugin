@@ -14,6 +14,7 @@ FROM mcr.microsoft.com/dotnet/sdk:5.0.301-alpine3.13-amd64
 # RUN sed -i 's/dl-cdn.alpinelinux.org/mirrors.aliyun.com/g' /etc/apk/repositories
 RUN apk update \
 && apk add openjdk8
+
 COPY --from=build /go/src/github.com/yahuiwong/drone-sonar-dotnet-plugin/drone-sonar /bin/
 WORKDIR /bin
 
