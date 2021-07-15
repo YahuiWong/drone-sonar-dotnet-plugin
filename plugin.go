@@ -14,12 +14,12 @@ type (
 		Host  string
 		Token string
 
-		Version         string
-		Branch          string
-		Sources         string
-		Timeout         string
-		Inclusions      string
-		Exclusions      string
+		Version string
+		Branch  string
+		Sources string
+		Timeout string
+		// Inclusions      string
+		// Exclusions      string
 		Level           string
 		ShowProfiling   string
 		BranchAnalysis  bool
@@ -50,12 +50,12 @@ func (p Plugin) Exec() error {
 		}
 		args = append(args, argsParameter...)
 	}
-	if p.Config.Inclusions != "" {
-		args = append(args, "/d:sonar.inclusions="+p.Config.Inclusions)
-	}
-	if p.Config.Exclusions != "" {
-		args = append(args, "/d:sonar.exclusions="+p.Config.Exclusions)
-	}
+	// if p.Config.Inclusions != "" {
+	// 	args = append(args, "/d:sonar.inclusions="+p.Config.Inclusions)
+	// }
+	// if p.Config.Exclusions != "" {
+	// 	args = append(args, "/d:sonar.exclusions="+p.Config.Exclusions)
+	// }
 	if p.Config.BranchAnalysis {
 		args = append(args, "/d:sonar.branch.name="+p.Config.Branch)
 	}

@@ -61,16 +61,16 @@ func main() {
 			Value:  ".",
 			EnvVar: "PLUGIN_SOURCES",
 		},
-		cli.StringFlag{
-			Name:   "inclusions",
-			Usage:  "code inclusions",
-			EnvVar: "PLUGIN_INCLUSIONS",
-		},
-		cli.StringFlag{
-			Name:   "exclusions",
-			Usage:  "code exclusions",
-			EnvVar: "PLUGIN_EXCLUSIONS",
-		},
+		// cli.StringFlag{
+		// 	Name:   "inclusions",
+		// 	Usage:  "code inclusions",
+		// 	EnvVar: "PLUGIN_INCLUSIONS",
+		// },
+		// cli.StringFlag{
+		// 	Name:   "exclusions",
+		// 	Usage:  "code exclusions",
+		// 	EnvVar: "PLUGIN_EXCLUSIONS",
+		// },
 		cli.StringFlag{
 			Name:   "level",
 			Usage:  "log level",
