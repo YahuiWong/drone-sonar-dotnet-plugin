@@ -88,11 +88,11 @@ func main() {
 			Usage:  "execute branchAnalysis",
 			EnvVar: "PLUGIN_BRANCHANALYSIS",
 		},
-		cli.BoolFlag{
-			Name:   "usingProperties",
-			Usage:  "using sonar-project.properties",
-			EnvVar: "PLUGIN_USINGPROPERTIES",
-		},
+		// cli.BoolFlag{
+		// 	Name:   "usingProperties",
+		// 	Usage:  "using sonar-project.properties",
+		// 	EnvVar: "PLUGIN_USINGPROPERTIES",
+		// },
 		cli.StringFlag{
 			Name:   "buildfile",
 			Usage:  "sln,csproj filepath",
@@ -117,11 +117,11 @@ func run(c *cli.Context) {
 			Sources: c.String("sources"),
 			// Inclusions:      c.String("inclusions"),
 			// Exclusions:      c.String("exclusions"),
-			Level:           c.String("level"),
-			ShowProfiling:   c.String("showProfiling"),
-			BranchAnalysis:  c.Bool("branchAnalysis"),
-			UsingProperties: c.Bool("usingProperties"),
-			buildfile:       c.String("buildfile"),
+			Level:          c.String("level"),
+			ShowProfiling:  c.String("showProfiling"),
+			BranchAnalysis: c.Bool("branchAnalysis"),
+			// UsingProperties: c.Bool("usingProperties"),
+			buildfile: c.String("buildfile"),
 		},
 	}
 

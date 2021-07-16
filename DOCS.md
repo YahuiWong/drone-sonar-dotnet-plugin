@@ -39,7 +39,6 @@ Customized parameters could be specified:
 +     sources: .
 +     level: DEBUG
 +     showProfiling: true
-+     usingProperties: false
 ```
 
 # Secret Reference

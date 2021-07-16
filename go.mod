@@ -1,3 +1,3 @@
-module yahuiwong/drone-sonar-plugin
+module yahuiwong/drone-sonar-dotnet-plugin
 
 go 1.16

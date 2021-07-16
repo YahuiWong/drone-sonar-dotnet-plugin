@@ -20,11 +20,11 @@ type (
 		Timeout string
 		// Inclusions      string
 		// Exclusions      string
-		Level           string
-		ShowProfiling   string
-		BranchAnalysis  bool
-		UsingProperties bool
-		buildfile       string
+		Level          string
+		ShowProfiling  string
+		BranchAnalysis bool
+		// UsingProperties bool
+		buildfile string
 	}
 	Plugin struct {
 		Config Config
@@ -37,19 +37,19 @@ func (p Plugin) Exec() error {
 		"/d:sonar.login=" + p.Config.Token + "",
 	}
 
-	if !p.Config.UsingProperties {
-		argsParameter := []string{
-			"/key:" + strings.Replace(p.Config.Key, "/", "-", -1) + "",
-			"/n:" + p.Config.Name,
-			"/version:" + p.Config.Version,
-			"/d:sonar.sources=" + p.Config.Sources,
-			"/d:sonar.ws.timeout=" + p.Config.Timeout,
-			"/d:sonar.log.level=" + p.Config.Level,
-			"/d:sonar.showProfiling=" + p.Config.ShowProfiling,
-			"/d:sonar.scm.provider=git",
-		}
-		args = append(args, argsParameter...)
+	// if !p.Config.UsingProperties {
+	argsParameter := []string{
+		"/key:" + strings.Replace(p.Config.Key, "/", "-", -1) + "",
+		"/n:" + p.Config.Name,
+		"/version:" + p.Config.Version,
+		"/d:sonar.sources=" + p.Config.Sources,
+		"/d:sonar.ws.timeout=" + p.Config.Timeout,
+		"/d:sonar.log.level=" + p.Config.Level,
+		"/d:sonar.showProfiling=" + p.Config.ShowProfiling,
+		"/d:sonar.scm.provider=git",
 	}
+	args = append(args, argsParameter...)
+	// }
 	// if p.Config.Inclusions != "" {
 	// 	args = append(args, "/d:sonar.inclusions="+p.Config.Inclusions)
 	// }
