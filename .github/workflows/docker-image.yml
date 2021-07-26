@@ -3,7 +3,7 @@ name: ci
 on:
   push:
     branches:
-      - 'master'
+      - '*'
 
 jobs:
   docker:
@@ -32,5 +32,5 @@ jobs:
         with:
           context: .
           push: true
-          tags: yahuiwong/drone-sonar-dotnet-plugin:master-${{ steps.commit.outputs.short }}
+          tags: yahuiwong/drone-sonar-dotnet-plugin:${BRANCH_NAME}-${{ steps.commit.outputs.short }}
 
