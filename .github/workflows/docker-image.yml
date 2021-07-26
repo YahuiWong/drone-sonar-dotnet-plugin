@@ -11,6 +11,9 @@ jobs:
     steps:
       - id: commit
         uses: pr-mpt/actions-commit-hash@v1
+      - name: Get branch name
+        id: branch-name
+        uses: tj-actions/branch-names@v4.5
       -
         name: Checkout
         uses: actions/checkout@v2
@@ -26,15 +29,11 @@ jobs:
         with:
           username: ${{ secrets.DOCKERHUB_USERNAME }}
           password: ${{ secrets.DOCKERHUB_TOKEN }}
-      - id: branch
-        uses: nelonoel/branch-name@v1.0.1
-       # Use branch name for whatever purpose
-      - run: echo ${BRANCH_NAME}
       -
         name: Build and push
         uses: docker/build-push-action@v2
         with:
           context: .
           push: true
-          tags: yahuiwong/drone-sonar-dotnet-plugin:${steps.commit.outputs}-${{ steps.commit.outputs.short }}
+          tags: yahuiwong/drone-sonar-dotnet-plugin:${{ steps.branch-name.outputs.current_branch }}-${{ steps.commit.outputs.short }}
 
