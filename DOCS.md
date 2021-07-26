@@ -1,13 +1,3 @@
----
-date: 2019-02-12T10:50:00+00:00
-title: SonarQube
-author: aosapps
-tags: [ Sonar, SonarQube, Analysis, report ]
-logo: sonarqube.svg
-repo: yahuiwong/drone-sonar-dotnet-plugin
-image: yahuiwong/drone-sonar-dotnet-plugin
----
-
 This plugin can scan your code quality and post the analysis report to your SonarQube server. SonarQube (previously called Sonar), is an open source code quality management platform.
 
 The below pipeline configuration demonstrates simple usage:
