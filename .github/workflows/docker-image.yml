@@ -26,7 +26,8 @@ jobs:
         with:
           username: ${{ secrets.DOCKERHUB_USERNAME }}
           password: ${{ secrets.DOCKERHUB_TOKEN }}
-      - uses: nelonoel/branch-name@v1.0.1
+      - id: branch
+        uses: nelonoel/branch-name@v1.0.1
        # Use branch name for whatever purpose
       - run: echo ${BRANCH_NAME}
       -
@@ -35,5 +36,5 @@ jobs:
         with:
           context: .
           push: true
-          tags: yahuiwong/drone-sonar-dotnet-plugin:${BRANCH_NAME}-${{ steps.commit.outputs.short }}
+          tags: yahuiwong/drone-sonar-dotnet-plugin:${steps.commit.outputs}-${{ steps.commit.outputs.short }}
 
