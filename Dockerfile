@@ -5,7 +5,7 @@ COPY *.go ./
 COPY vendor ./vendor/
 RUN GOOS=linux GOARCH=amd64 CGO_ENABLED=0 go build -o drone-sonar
 
-FROM mcr.microsoft.com/dotnet/sdk:5.0.301-alpine3.13-amd64
+FROM mcr.microsoft.com/dotnet/sdk:6.0-alpine3.13-amd64
 # RUN sed -i "s/http:\/\/deb.debian.org\/debian/https:\/\/mirrors.aliyun.com\/debian/g" /etc/apt/sources.list
 # RUN apt clean \
 #     && apt update \
@@ -13,7 +13,7 @@ FROM mcr.microsoft.com/dotnet/sdk:5.0.301-alpine3.13-amd64
 #     && apt clean
 # RUN sed -i 's/dl-cdn.alpinelinux.org/mirrors.ustc.edu.cn/g' /etc/apk/repositories
 RUN apk update \
-&& apk add openjdk8 nodejs \
+&& apk add openjdk14 nodejs \
 $$ rm -rf /tmp/* /var/cache/apk/*
 
 COPY --from=build /go/src/github.com/yahuiwong/drone-sonar-dotnet-plugin/drone-sonar /bin/
